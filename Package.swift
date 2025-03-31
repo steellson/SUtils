@@ -1,21 +1,23 @@
 // swift-tools-version: 6.0
-// The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
-    name: "STUtilites",
+    name: "SUtils",
     platforms: [
-        .macOS(.v12)
+        .macOS(.v12),
+        .iOS(.v15)
     ],
     products: [
         .library(
-            name: "STUtilites",
+            name: "SUtils",
             type: .static,
-            targets: ["STUtilites"]
-        )
+            targets: ["SUtils"]
+        ),
     ],
     targets: [
-        .target(name: "STUtilites")
+        .target(
+            name: "SUtils"
+        )
     ]
 )

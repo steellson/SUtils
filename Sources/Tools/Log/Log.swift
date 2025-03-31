@@ -1,6 +1,6 @@
 //
-//  SLog.swift
-//  STUtilites
+//  Log.swift
+//  SUtils
 //
 //  Created by Andrew Steellson on 29.03.2025.
 //
@@ -11,24 +11,24 @@ import OSLog
 /// `` ☩   Logger    ☩ ``
 /// `` ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ``
 
-public enum SLog {
+public enum Log {
     /// Private
     private static let logger     = Logger()
     private static let formatter  = DateFormatter()
     private static let timeFormat = "HH:mm:ss"
 
     /// Public
-    public static var log:      TypedBlock<String> {{ SLog.log($0) }}
-    public static var info:     TypedBlock<String> {{ SLog.log($0, type: .info) }}
-    public static var success:  TypedBlock<String> {{ SLog.log($0, type: .success) }}
-    public static var debug:    TypedBlock<String> {{ SLog.log($0, type: .debug) }}
-    public static var warning:  TypedBlock<String> {{ SLog.log($0, type: .warning) }}
-    public static var error:    TypedBlock<String> {{ SLog.log($0, type: .error) }}
-    public static var critical: TypedBlock<String> {{ SLog.log($0, type: .critical) }}
+    public static var log:      TypedBlock<String> {{ Log.send($0) }}
+    public static var info:     TypedBlock<String> {{ Log.send($0, type: .info) }}
+    public static var success:  TypedBlock<String> {{ Log.send($0, type: .success) }}
+    public static var debug:    TypedBlock<String> {{ Log.send($0, type: .debug) }}
+    public static var warning:  TypedBlock<String> {{ Log.send($0, type: .warning) }}
+    public static var error:    TypedBlock<String> {{ Log.send($0, type: .error) }}
+    public static var critical: TypedBlock<String> {{ Log.send($0, type: .critical) }}
 }
 
 // MARK: - Pretty
-public extension SLog {
+public extension Log {
     enum UseCase: String {
         case none
         case info     = "💎"
@@ -41,8 +41,12 @@ public extension SLog {
 }
 
 // MARK: - Action
-private extension SLog {
-    static func log(
+private extension Log {
+    /// Send logs into console
+    /// - Parameters:
+    ///   - message: Text info for logging
+    ///   - type: Use for setting log level
+    static func send(
         _ message: String,
         type: UseCase = .none
     ) {
