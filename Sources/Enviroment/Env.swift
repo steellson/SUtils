@@ -41,19 +41,6 @@ public enum Env<T: RawRepresentable> {
         case invalidKey
         case invalidValue
     }
-
-    /// Path to `.plist` in project main bundle
-    public static var propertiesPath: String {
-        let propertiesList = "Info"
-        let fileExtension = ".plist"
-        let bundle = Bundle.main
-
-        return bundle.path(
-            forResource: propertiesList,
-            ofType: fileExtension,
-            inDirectory: nil
-        ) ?? bundle.bundlePath
-    }
 }
 
 // MARK: - Read
@@ -91,6 +78,20 @@ public extension Env {
 
 // MARK: - Process (Private)
 private extension Env {
+    /// Path to `.plist` in project main bundle
+    public static var propertiesPath: String {
+        let propertiesList = "Info"
+        let fileExtension = ".plist"
+        let bundle = Bundle.main
+
+        return bundle.path(
+            forResource: propertiesList,
+            ofType: fileExtension,
+            inDirectory: nil
+        ) ?? bundle.bundlePath
+    }
+
+    /// Internal logs
     static func log(
         _ error: EnvError?,
         _ info: String = ""
