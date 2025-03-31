@@ -79,7 +79,7 @@ public extension Env {
 // MARK: - Process (Private)
 private extension Env {
     /// Path to `.plist` in project main bundle
-    public static var propertiesPath: String {
+    static var propertiesPath: String {
         let propertiesList = "Info"
         let fileExtension = ".plist"
         let bundle = Bundle.main
