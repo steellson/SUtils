@@ -1,9 +1,4 @@
-//
-//  PlistReader.swift
-//  SUtils
-//
 //  Created by Andrew Steellson on 30.03.2025.
-//
 
 import Foundation
 

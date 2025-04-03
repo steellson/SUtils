@@ -1,9 +1,4 @@
-//
-//  Env.swift
-//  SUtils
-//
 //  Created by Andrew Steellson on 29.03.2025.
-//
 
 import Foundation
 
@@ -80,14 +75,13 @@ public extension Env {
 private extension Env {
     /// Path to `.plist` in project main bundle
     static var propertiesPath: String {
-        let propertiesList = "Info"
+        let propertiesList = "Config"
         let fileExtension = ".plist"
         let bundle = Bundle.main
 
         return bundle.path(
             forResource: propertiesList,
-            ofType: fileExtension,
-            inDirectory: nil
+            ofType: fileExtension
         ) ?? bundle.bundlePath
     }
 

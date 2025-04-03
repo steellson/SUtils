@@ -1,9 +1,4 @@
-//
-//  DS.swift
-//  SUtils
-//
 //  Created by Andrew Steellson on 31.03.2025.
-//
 
 import Foundation
 
