@@ -8,7 +8,7 @@ import UIKit
 /// `` ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ``
 
 public extension UIImage {
-    ///
+    /// - Returns: Resized to target size image
     public func resizeImage(
         targetSize: CGSize,
         useTargetSize: Bool = false,
@@ -38,7 +38,7 @@ public extension UIImage {
         }
     }
 
-    ///
+    /// - Returns: Image with new color
     public func imageWithColor(color1: UIColor) -> UIImage {
         return UIGraphicsImageRenderer(
             size: size,
@@ -49,7 +49,7 @@ public extension UIImage {
         }
     }
 
-    ///
+    /// - Returns: Rotated image
     public func rotate(radians: CGFloat) -> UIImage {
         let rotatedSize = CGRect(origin: .zero, size: size)
             .applying(CGAffineTransform(rotationAngle: radians))
@@ -78,7 +78,7 @@ public extension UIImage {
         return rotatedImage
     }
 
-    ///
+    /// - Returns: Scaled image
     public func scaleImage(scaleFactor: CGFloat) -> UIImage {
         let newSize = CGSize(
             width: width * scaleFactor,
