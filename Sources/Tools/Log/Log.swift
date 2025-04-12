@@ -13,13 +13,13 @@ public enum Log {
     private static let timeFormat = "HH:mm:ss"
 
     /// Public
-    public static var log:      TypedBlock<String> {{ Log.send($0) }}
-    public static var info:     TypedBlock<String> {{ Log.send($0, type: .info) }}
-    public static var success:  TypedBlock<String> {{ Log.send($0, type: .success) }}
-    public static var debug:    TypedBlock<String> {{ Log.send($0, type: .debug) }}
-    public static var warning:  TypedBlock<String> {{ Log.send($0, type: .warning) }}
-    public static var error:    TypedBlock<String> {{ Log.send($0, type: .error) }}
-    public static var critical: TypedBlock<String> {{ Log.send($0, type: .critical) }}
+    public static var log:      (String) -> Void {{ Log.send($0) }}
+    public static var info:     (String) -> Void {{ Log.send($0, type: .info) }}
+    public static var success:  (String) -> Void {{ Log.send($0, type: .success) }}
+    public static var debug:    (String) -> Void {{ Log.send($0, type: .debug) }}
+    public static var warning:  (String) -> Void {{ Log.send($0, type: .warning) }}
+    public static var error:    (String) -> Void {{ Log.send($0, type: .error) }}
+    public static var critical: (String) -> Void {{ Log.send($0, type: .critical) }}
 }
 
 // MARK: - Pretty

@@ -10,14 +10,34 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "SUtils",
-            type: .static,
-            targets: ["SUtils"]
+            name: "Design System",
+            targets: ["DS"]
         ),
+        .library(
+            name: "Enviroment Config",
+            targets: ["Env"]
+        ),
+        .library(
+            name: "Development Tools",
+            targets: ["Log", "PlistReader"]
+        )
     ],
     targets: [
         .target(
-            name: "SUtils"
+            name: "DS",
+            path: "Sources/DS"
+        ),
+        .target(
+            name: "Env",
+            path: "Sources/Env"
+        ),
+        .target(
+            name: "Log",
+            path: "Sources/Tools/Log"
+        ),
+        .target(
+            name: "PlistReader",
+            path: "Sources/Tools/PlistReader"
         )
     ]
 )
