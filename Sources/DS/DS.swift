@@ -7,33 +7,35 @@ import Foundation
 /// `` ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ``
 
 public enum DS {
-    public enum Spacer {
-        /// 2px
+    /// Base values for UI insets
+    public enum Insets {
+        /// 2 pt
         public static let small: CGFloat = 2
-        /// 4px
+        /// 4 pt
         public static let base: CGFloat = 4
-        /// 8px
+        /// 8 pt
         public static let X2: CGFloat = 8
-        /// 12px
+        /// 12 pt
         public static let X3: CGFloat = 12
-        /// 16px
+        /// 16 pt
         public static let X4: CGFloat = 16
-        /// 24px
+        /// 24 pt
         public static let X16: CGFloat = 24
-        /// 32px
+        /// 32 pt
         public static let large: CGFloat = 32
     }
 
-    public enum Radius {
-        /// 4px
+    /// Base values for corner radius
+    public enum Corners {
+        /// 4 pt
         public static let base: CGFloat = 4
-        /// 8px
+        /// 8 pt
         public static let X2: CGFloat = 8
-        /// 12х
+        /// 12 pt
         public static let X3: CGFloat = 12
-        /// 16px
+        /// 16 pt
         public static let X4: CGFloat = 16
-        /// 24px
-        public static let large: CGFloat = 25
+        /// 24 pt
+        public static let large: CGFloat = 24
     }
 }
