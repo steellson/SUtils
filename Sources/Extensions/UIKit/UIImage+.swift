@@ -33,7 +33,7 @@ public extension UIImage {
             )
         }
 
-        return UIGraphicsImageRenderer(size: newSize).image {
+        return UIGraphicsImageRenderer(size: newSize).image { _ in
             draw(in: CGRect(origin: .zero, size: newSize))
         }
     }
@@ -81,8 +81,8 @@ public extension UIImage {
     /// - Returns: Scaled image
     public func scaleImage(scaleFactor: CGFloat) -> UIImage {
         let newSize = CGSize(
-            width: width * scaleFactor,
-            height: height * scaleFactor
+            width: size.width * scaleFactor,
+            height: size.height * scaleFactor
         )
         return UIGraphicsImageRenderer(size: newSize).image { context in
             draw(in: CGRect(origin: .zero, size: newSize))

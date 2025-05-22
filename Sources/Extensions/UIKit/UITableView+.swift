@@ -34,7 +34,7 @@ public extension UITableView {
     ) -> T where T: Reusable {
         guard let cell = dequeueReusableCell(
             withIdentifier: cellType.reuseIdentifier,
-            for: indexPat
+            for: indexPath
         ) as? T else {
             fatalError("Failed to dequeue a cell with identifier \(cellType.reuseIdentifier) matching type \(cellType.self)")
         }

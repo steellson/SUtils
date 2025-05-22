@@ -1,6 +1,7 @@
 //  Created by Andrew Steellson on 20.04.2025.
 
-import Foundation
+#if canImport(AppKit)
+import AppKit
 
 /// `` ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ``
 /// `` ☩   Scripter    ☩ ``
@@ -40,3 +41,4 @@ public struct Scripter {
         return output ?? ""
     }
 }
+#endif

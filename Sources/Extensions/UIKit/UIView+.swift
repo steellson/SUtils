@@ -47,7 +47,7 @@ public extension UIView {
     /// Common addSubview with `tAMIC`=`false`
     /// - Parameter views: View for adding
     public func addNewSubviews(_ view: UIView) {
-        view.translateAutoresizingMaskIntoConstraints = false
+        view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(view)
     }
 
