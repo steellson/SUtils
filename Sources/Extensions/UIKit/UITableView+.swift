@@ -2,6 +2,7 @@
 
 #if canImport(UIKit)
 import UIKit
+import Protocols
 
 /// `` ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ``
 /// `` ☩     UITableView +     ☩ ``

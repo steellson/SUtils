@@ -6,6 +6,8 @@ import UIKit
 import SnapKit
 #endif
 
+import Base
+
 /// `` ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ``
 /// `` ☩   UIView +  ☩ ``
 /// `` ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ``
@@ -20,7 +22,7 @@ public extension UIView {
     ///   - completion: Optional handler
     public func fadeIn(
         duration: TimeInterval = 1.0,
-        completion: TypedBlock<Bool>?
+        completion: @escaping (Bool) -> Void
     ) {
         UIView.animate(
             withDuration: duration,
@@ -35,7 +37,7 @@ public extension UIView {
     ///   - completion: Optional handler
     public func fadeOut(
         duration: TimeInterval = 1.0,
-        completion: TypedBlock<Bool>?
+        completion: @escaping (Bool) -> Void
     ) {
         UIView.animate(
             withDuration: duration,

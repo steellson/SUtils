@@ -6,20 +6,112 @@ import PackageDescription
 let package = Package(
     name: "SUtils",
     platforms: [
-        .macOS(.v12),
+        .macOS(.v13),
         .iOS(.v15)
     ],
     products: [
         .library(
-            name: "SUtils",
+            name: "BaseClasses",
             targets: [
-                "SUtils"
+                "Base"
+            ]
+        ),
+        .library(
+            name: "DesignSystem",
+            targets: [
+                "DS"
+            ]
+        ),
+        .library(
+            name: "Environment",
+            targets: [
+                "Env"
+            ]
+        ),
+        .library(
+            name: "Extensions",
+            targets: [
+                "FoundationExtensions",
+                "UIKitExtensions"
+            ]
+        ),
+        .library(
+            name: "Protocols",
+            targets: [
+                "Protocols"
+            ]
+        ),
+        .library(
+            name: "Tools",
+            targets: [
+                "Finder",
+                "Log",
+                "PlistReader",
+                "Pusher",
+                "Scripter"
             ]
         )
     ],
     targets: [
+
+        /// ** BASE CLASSES **
         .target(
-            name: "SUtils"
+            name: "Base",
+            path: "Sources/Base"
+        ),
+
+        /// ** DESIGN SYSTEM **
+        .target(
+            name: "DS",
+            path: "Sources/DS"
+        ),
+
+        /// ** ENVIRONMENT **
+        .target(
+            name: "Env",
+            dependencies: [
+                .target(name: "PlistReader"),
+                .target(name: "Log")
+            ],
+            path: "Sources/Env"
+        ),
+
+        /// ** EXTENSIONS **
+        .target(
+            name: "FoundationExtensions",
+            path: "Sources/Extensions/Base"
+        ),
+        .target(
+            name: "UIKitExtensions",
+            path: "Sources/Extensions/UIKit"
+        ),
+
+        /// ** PROTOCOLS **
+        .target(
+            name: "Protocols",
+            path: "Sources/Protocols"
+        ),
+
+        /// ** TOOLS **
+        .target(
+            name: "Finder",
+            path: "Sources/Tools/Finder"
+        ),
+        .target(
+            name: "Log",
+            path: "Sources/Tools/Log"
+        ),
+        .target(
+            name: "PlistReader",
+            path: "Sources/Tools/PlistReader"
+        ),
+        .target(
+            name: "Pusher",
+            path: "Sources/Tools/Pusher"
+        ),
+        .target(
+            name: "Scripter",
+            path: "Sources/Tools/Scripter"
         )
     ]
 )
