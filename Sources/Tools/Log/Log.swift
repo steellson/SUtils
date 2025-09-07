@@ -7,12 +7,6 @@ import OSLog
 /// `` ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ``
 
 public enum Log {
-    /// Private
-    private static let logger     = Logger()
-    private static let formatter  = DateFormatter()
-    private static let timeFormat = "HH:mm:ss"
-
-    /// Public
     public static var log:      (String) -> Void {{ Log.send($0) }}
     public static var info:     (String) -> Void {{ Log.send($0, type: .info) }}
     public static var success:  (String) -> Void {{ Log.send($0, type: .success) }}
@@ -20,6 +14,10 @@ public enum Log {
     public static var warning:  (String) -> Void {{ Log.send($0, type: .warning) }}
     public static var error:    (String) -> Void {{ Log.send($0, type: .error) }}
     public static var critical: (String) -> Void {{ Log.send($0, type: .critical) }}
+
+    private static let logger     = Logger()
+    private static let formatter  = DateFormatter()
+    private static let timeFormat = "HH:mm:ss"
 }
 
 // MARK: - Pretty

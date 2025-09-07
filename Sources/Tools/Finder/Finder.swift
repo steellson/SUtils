@@ -5,6 +5,10 @@
 import AppKit
 import Log
 
+/// `` ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ``
+/// `` ☩   Finder    ☩ ``
+/// `` ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ``
+
 @MainActor
 public final class Finder {
     public enum Errors: Error {

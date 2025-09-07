@@ -45,6 +45,7 @@ let package = Package(
             name: "Tools",
             targets: [
                 "Finder",
+                "FSTracker",
                 "Log",
                 "PlistReader",
                 "Pusher",
@@ -96,6 +97,10 @@ let package = Package(
         .target(
             name: "Finder",
             path: "Sources/Tools/Finder"
+        ),
+        .target(
+            name: "FSTracker",
+            path: "Sources/Tools/FSTracker"
         ),
         .target(
             name: "Log",
