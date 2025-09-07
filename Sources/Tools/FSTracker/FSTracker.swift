@@ -77,7 +77,7 @@ public extension FSTracker {
 // MARK: - Process
 private extension FSTracker {
     /// Initial configuration with context
-    /// Should be with passUnretained because of C-Api (with no ARC)
+    /// Should be with passUnretained because ARC is unavailable here
     func configure() throws {
         let unretainedSelf = Unmanaged.passUnretained(self).toOpaque()
         let unretainedSelfPointer = UnsafeMutableRawPointer(unretainedSelf)
@@ -122,9 +122,10 @@ private extension FSTracker {
 
         (0 ..< eventsCount).forEach {
             let path = eventPaths[$0]
-            let flag = eventFlags[$0]
+            let flags = eventFlags[$0]
+            let events = FSFlags.parse(flags).map { $0.text }
 
-            Log.debug("[\(flag)] Changes tracked: \(path)")
+            Log.debug("Changes tracked: \(path)\nEvents: \(events)")
         }
     }
 }
