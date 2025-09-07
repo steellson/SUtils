@@ -12,6 +12,14 @@ import CoreServices
 /// Tracking target directories changes
 /// Based on low level file system C-API
 public final class FSTracker {
+    enum Errors: Error {
+        case cantCreateStream
+        case cantHandleDirectory(String)
+        case cantRecognizePaths
+        case cantStartTracking
+        case cantStopTracking
+    }
+
     public var isTracking: Bool = false
 
     private var eventStream: FSEventStreamRef?
@@ -27,28 +35,33 @@ public final class FSTracker {
     }
 
     deinit {
-        stop()
+        try? stop()
     }
 }
 
 // MARK: - Public
 public extension FSTracker {
-    func start() {
-        configure()
-        guard let eventStream else { return }
+    func start() throws {
+        try checkPaths()
+        try configure()
+
+        guard let eventStream else {
+            Log.error("Cant start! FS event stream is unexist")
+            throw Errors.cantStartTracking
+        }
 
         FSEventStreamSetDispatchQueue(eventStream, queue)
         FSEventStreamStart(eventStream)
         isTracking = true
 
-        Log.success("FS tracking started for directories: \(paths)")
+        Log.success("FS tracking started")
     }
 
-    func stop() {
+    func stop() throws {
         isTracking = false
         guard let eventStream else {
-            Log.error("FS event stream ins't found")
-            return
+            Log.error("Cant stop! FS event stream ins't found")
+            throw Errors.cantStopTracking
         }
 
         FSEventStreamStop(eventStream)
@@ -65,14 +78,32 @@ public extension FSTracker {
 private extension FSTracker {
     /// Initial configuration with context
     /// Should be with passUnretained because of C-Api (with no ARC)
-    func configure() {
+    func configure() throws {
         let unretainedSelf = Unmanaged.passUnretained(self).toOpaque()
         let unretainedSelfPointer = UnsafeMutableRawPointer(unretainedSelf)
 
         var context = buildEventStreamContext(with: unretainedSelfPointer)
-        eventStream = buildEventStreamReference(with: &context)
+        eventStream = try buildEventStreamReference(with: &context)
     }
-    
+
+    /// Detect incorrect paths and report this
+    func checkPaths() throws {
+        let wrongPaths = paths.filter {
+            var isDirectory = ObjCBool(true)
+            let isDirectoryExist = FileManager.default.fileExists(
+                atPath: $0,
+                isDirectory: &isDirectory
+            )
+            return !isDirectoryExist
+        }
+
+        guard wrongPaths.isEmpty else {
+            Log.error("Selected directories has wrong paths: \(wrongPaths)")
+            throw Errors.cantHandleDirectory(wrongPaths.joined(separator: ", "))
+        }
+        Log.info("Prepare directories tracking: \(paths)")
+    }
+
     /// Tracking process, will be executed into `FSEventStreamCallback`
     /// - Parameters:
     ///   - pathPointer: Directory pointer
@@ -82,11 +113,11 @@ private extension FSTracker {
         pathPointer: UnsafeMutableRawPointer,
         eventFlags: UnsafePointer<FSEventStreamEventFlags>,
         eventsCount: Int
-    ) {
+    ) throws {
         let paths = unsafeBitCast(pathPointer, to: NSArray.self)
         guard let eventPaths = paths as? [String] else {
             Log.error("Cant retreive tracking paths")
-            return
+            throw Errors.cantRecognizePaths
         }
 
         (0 ..< eventsCount).forEach {
@@ -115,7 +146,8 @@ private extension FSTracker {
         )
     }
 
-    func buildProcessCallback() -> FSEventStreamCallback {
+    /// C-based callback with tracking process ⚠️
+    func buildProcessCallback() throws -> FSEventStreamCallback {
         return { (
             streamRef,
             clientCallBackInfo,
@@ -133,7 +165,7 @@ private extension FSTracker {
                 .fromOpaque(clientCallBackInfo)
                 .takeUnretainedValue()
 
-            unretainedSelf.process(
+            try? unretainedSelf.process(
                 pathPointer: eventPathsPointer,
                 eventFlags: eventFlags,
                 eventsCount: eventsCount
@@ -146,10 +178,11 @@ private extension FSTracker {
     /// - Returns: Configured stream
     func buildEventStreamReference(
         with context: inout FSEventStreamContext
-    ) -> FSEventStreamRef? {
+    ) throws -> FSEventStreamRef? {
+        let processCallback = try buildProcessCallback()
         let eventStream = FSEventStreamCreate(
             kCFAllocatorDefault,
-            buildProcessCallback(),
+            processCallback,
             &context,
             paths as CFArray,
             FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
@@ -161,8 +194,9 @@ private extension FSTracker {
             )
         )
 
-        if eventStream == nil {
+        guard let eventStream else {
             Log.warning("Failed to create FSEventStream")
+            throw Errors.cantCreateStream
         }
 
         return eventStream
