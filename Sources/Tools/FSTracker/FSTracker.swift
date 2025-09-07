@@ -125,7 +125,7 @@ private extension FSTracker {
             let flags = eventFlags[$0]
             let events = FSFlags.parse(flags).map { $0.text }
 
-            Log.debug("Changes tracked: \(path)\nEvents: \(events)")
+            Log.debug("Changes tracked: \(path)\nEvents: \(events)\nFlags: \(flags)")
         }
     }
 }

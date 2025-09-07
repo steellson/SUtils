@@ -26,19 +26,14 @@ public struct FSEvent {
         case .itemChangeOwner:   "Changed owner"
 
         case .itemIsFile:        "Is file"
-        case .itemRoot:          "Is root"
         case .itemIsSymlink:     "Is symlink"
-        case .itemHardlink:      "Is hardlink"
         case .itemIsDir:         "Is directory"
 
         case .itemModified:      "Modified"
-        case .itemRootModified:  "Mofidied root"
         case .itemInodeMetaMod:  "Mofidied inode meta"
         case .itemFinderInfoMod: "Modified finder info"
         case .itemXattrMod:      "Modified extended attributes"
 
-        case .itemUnmount:       "Unmount"
-        case .itemUnmounted:     "Unmounted"
         case .noChanges:         "No changes"
         }
     }
