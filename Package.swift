@@ -44,6 +44,7 @@ let package = Package(
         .library(
             name: "Tools",
             targets: [
+                "ChargeTracker",
                 "Finder",
                 "FSTracker",
                 "Log",
@@ -94,6 +95,10 @@ let package = Package(
         ),
 
         /// ** TOOLS **
+        .target(
+            name: "ChargeTracker",
+            path: "Sources/Tools/ChargeTracker"
+        ),
         .target(
             name: "Finder",
             path: "Sources/Tools/Finder"
