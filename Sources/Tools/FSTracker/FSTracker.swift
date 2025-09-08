@@ -20,6 +20,7 @@ public final class FSTracker {
         case cantStopTracking
     }
 
+    public var onReceive: (([FSEvent]) -> Void)?
     public var isTracking: Bool = false
 
     private var eventStream: FSEventStreamRef?
@@ -123,9 +124,10 @@ private extension FSTracker {
         (0 ..< eventsCount).forEach {
             let path = eventPaths[$0]
             let flags = eventFlags[$0]
-            let events = FSFlags.parse(flags).map { $0.text }
+            let events = FSFlags.parse(flags)
 
-            Log.debug("Changes tracked: \(path)\nEvents: \(events)\nFlags: \(flags)")
+            onReceive?(events)
+            Log.debug("Changes tracked: \(path)\nEvents: \(events.map { $0.text })")
         }
     }
 }
