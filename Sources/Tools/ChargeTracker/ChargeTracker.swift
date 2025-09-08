@@ -76,6 +76,19 @@ public extension ChargeTracker {
         self.runLoopSource = nil
         Log.success("Charge tracker stopped!")
     }
+
+    func isPowerAdapterPluggedIn() -> Bool {
+        let adapterDetails = IOPSCopyExternalPowerAdapterDetails()?
+            .takeRetainedValue() as? [String: Any]
+
+        guard let adapterDetails, !adapterDetails.isEmpty else {
+            Log.warning("Power adapter isn't connected 🔌")
+            return false
+        }
+
+        Log.warning("Power adapter connected ⚡️")
+        return true
+    }
 }
 
 // MARK: - Handling
