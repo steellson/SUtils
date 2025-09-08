@@ -15,11 +15,7 @@ public struct FSEvent {
         _ flag: FSFlags
     ) {
         self.flag = flag
-        self.text = Self.describe(flag)
-    }
-
-    private static func describe(_ flag: FSFlags) -> String {
-        return switch flag {
+        self.text = switch flag {
         case .itemCreated:       "Created"
         case .itemRemoved:       "Removed"
         case .itemRenamed:       "Renamed"
