@@ -14,12 +14,18 @@ public protocol Push {
 }
 
 // MARK: - Impl
-public final class Pusher {
+public final class Pusher: NSObject {
     private(set) var isAuthorized: Bool = false
+
+    private let options: UNNotificationPresentationOptions
     private let notifications: UNUserNotificationCenter
 
-    public init() {
-        notifications = UNUserNotificationCenter.current()
+    public init(_ options: UNNotificationPresentationOptions? = nil) {
+        self.options = options ?? [.banner, .sound, .badge]
+        self.notifications = UNUserNotificationCenter.current()
+        super.init()
+
+        notifications.delegate = self
     }
 }
 
@@ -27,6 +33,17 @@ public final class Pusher {
 public extension Pusher {
     enum Errors: Error {
         case isNotAuthorized
+    }
+}
+
+// MARK: - Delegate
+extension Pusher: UNUserNotificationCenterDelegate {
+    public func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler(options)
     }
 }
 
@@ -52,22 +69,28 @@ public extension Pusher {
 
         let content = UNMutableNotificationContent()
         content.title = push.title
+
         if let subtitle = push.subtitle {
             content.subtitle =  subtitle
         }
 
-        let sound = push.sound ?? "default"
-        content.sound = UNNotificationSound(named: UNNotificationSoundName(sound))
+        if options.contains(.sound) {
+            content.sound = UNNotificationSound(
+                named: UNNotificationSoundName(
+                    push.sound ?? "default"
+                )
+            )
+        }
 
-        let request = UNNotificationRequest(
-            identifier: UUID().uuidString,
-            content: content,
-            trigger: UNTimeIntervalNotificationTrigger(
-                timeInterval: push.after ?? 1,
-                repeats: false
+        notifications.add(
+            UNNotificationRequest(
+                identifier: UUID().uuidString,
+                content: content,
+                trigger: UNTimeIntervalNotificationTrigger(
+                    timeInterval: push.after ?? 1,
+                    repeats: false
+                )
             )
         )
-
-        notifications.add(request)
     }
 }
