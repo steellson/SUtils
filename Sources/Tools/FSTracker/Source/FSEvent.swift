@@ -1,6 +1,7 @@
 //  Created by Andrew Steellson on 07.09.2025.
 //
 
+#if (os(macOS))
 import Foundation
 
 /// `` ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ``
@@ -42,3 +43,4 @@ public struct FSEvent {
         detail = flags.filter { details.contains($0) }.first
     }
 }
+#endif

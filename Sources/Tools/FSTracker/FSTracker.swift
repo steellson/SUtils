@@ -1,7 +1,7 @@
 //  Created by Andrew Steellson on 07.09.2025.
 //
 
-#if(macOS)
+#if (os(macOS))
 import Log
 import Foundation
 import CoreServices
@@ -22,7 +22,7 @@ public final class FSTracker {
         case cantStopTracking
     }
 
-    public var onReceive: (([FSEvent]) -> Void)?
+    public var onReceive: ((FSEvent) -> Void)?
     public var isTracking: Bool = false
 
     private var eventStream: FSEventStreamRef?

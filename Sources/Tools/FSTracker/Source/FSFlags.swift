@@ -1,6 +1,7 @@
 //  Created by Andrew Steellson on 07.09.2025.
 //
 
+#if (os(macOS))
 import Foundation
 
 /// `` ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ``
@@ -28,3 +29,4 @@ public enum FSFlags: UInt32, CaseIterable {
         return FSFlags.allCases.filter { encodedFlags & $0.rawValue != 0 }
     }
 }
+#endif
