@@ -1,6 +1,7 @@
 //  Created by Andrew Steellson on 08.09.2025.
 //
 
+#if(macOS)
 import Foundation
 
 /// `` ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩``
@@ -20,3 +21,4 @@ public struct BatteryState {
         }
     }
 }
+#endif

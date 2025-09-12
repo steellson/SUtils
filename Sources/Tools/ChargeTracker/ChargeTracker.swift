@@ -1,6 +1,7 @@
 //  Created by Andrew Steellson on 08.09.2025.
 //
 
+#if(macOS)
 import Log
 import IOKit.ps
 import Foundation
@@ -165,3 +166,4 @@ private extension ChargeTracker {
         return source?.takeRetainedValue()
     }
 }
+#endif

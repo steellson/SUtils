@@ -22,11 +22,9 @@ public enum FSFlags: UInt32, CaseIterable {
     case itemIsSymlink     = 0x00040000
 
     /// Take values with bitmask
-    /// - Parameter eventFlags: Number from FS (Combinated flags)
+    /// - Parameter encodedFlags: Number from FS (Combinated flags)
     /// - Returns: Array of understandable events from file system
-    public static func parse(_ eventFlags: UInt32) -> [FSEvent] {
-        return FSFlags.allCases
-            .filter { eventFlags & $0.rawValue != 0 }
-            .compactMap { FSEvent($0) }
+    public static func parse(_ encodedFlags: UInt32) -> [FSFlags] {
+        return FSFlags.allCases.filter { encodedFlags & $0.rawValue != 0 }
     }
 }

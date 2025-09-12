@@ -8,29 +8,37 @@ import Foundation
 /// `` ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ☩ ``
 
 public struct FSEvent {
-    public let flag: FSFlags
-    public let text: String
+    public let file: String
+    public let path: String
+    public let action: FSFlags?
+    public let detail: FSFlags?
 
     public init(
-        _ flag: FSFlags
+        url: URL,
+        flags: [FSFlags]
     ) {
-        self.flag = flag
-        self.text = switch flag {
-        case .itemCreated:       "Created"
-        case .itemRemoved:       "Removed"
-        case .itemRenamed:       "Renamed"
-        case .itemChangeOwner:   "Changed owner"
+        var components = url.pathComponents
 
-        case .itemIsFile:        "Is file"
-        case .itemIsSymlink:     "Is symlink"
-        case .itemIsDir:         "Is directory"
+        let actions: [FSFlags] = [
+            .itemCreated,
+            .itemRemoved,
+            .itemRenamed,
+            .itemModified,
+            .itemXattrMod,
+            .itemChangeOwner,
+            .itemInodeMetaMod,
+            .itemFinderInfoMod
+        ]
 
-        case .itemModified:      "Modified"
-        case .itemInodeMetaMod:  "Mofidied inode meta"
-        case .itemFinderInfoMod: "Modified finder info"
-        case .itemXattrMod:      "Modified extended attributes"
+        let details: [FSFlags] = [
+            .itemIsDir,
+            .itemIsFile,
+            .itemIsSymlink
+        ]
 
-        case .noChanges:         "No changes"
-        }
+        file = components.removeLast()
+        path = components.joined(separator: "/")
+        action = flags.filter { actions.contains($0) }.first
+        detail = flags.filter { details.contains($0) }.first
     }
 }

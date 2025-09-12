@@ -1,6 +1,7 @@
 //  Created by Andrew Steellson on 07.09.2025.
 //
 
+#if(macOS)
 import Log
 import Foundation
 import CoreServices
@@ -16,6 +17,7 @@ public final class FSTracker {
         case cantCreateStream
         case cantHandleDirectory(String)
         case cantRecognizePaths
+        case cantRecognizeEventURL
         case cantStartTracking
         case cantStopTracking
     }
@@ -121,13 +123,19 @@ private extension FSTracker {
             throw Errors.cantRecognizePaths
         }
 
-        (0 ..< eventsCount).forEach {
+        try (0 ..< eventsCount).forEach {
             let path = eventPaths[$0]
             let flags = eventFlags[$0]
-            let events = FSFlags.parse(flags)
 
-            onReceive?(events)
-            Log.debug("Changes tracked: \(path)\nEvents: \(events.map { $0.text })")
+            guard let url = URL(string: path) else {
+                Log.error("Cant recognize event URL")
+                throw Errors.cantRecognizeEventURL
+            }
+
+            let event = FSEvent(url: url, flags: FSFlags.parse(flags))
+
+            onReceive?(event)
+            Log.debug("Event: \(event)")
         }
     }
 }
@@ -205,3 +213,4 @@ private extension FSTracker {
         return eventStream
     }
 }
+#endif
