@@ -11,6 +11,7 @@ import Foundation
 public struct FSEvent {
     public let file: String
     public let path: String
+    public let timestamp: String
     public let action: FSFlags?
     public let detail: FSFlags?
 
@@ -39,6 +40,7 @@ public struct FSEvent {
 
         file = components.removeLast()
         path = components.joined(separator: "/")
+        timestamp = Date.now.formatted()
         action = flags.filter { actions.contains($0) }.first
         detail = flags.filter { details.contains($0) }.first
     }
